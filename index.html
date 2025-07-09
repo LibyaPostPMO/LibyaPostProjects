@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخطط معلوماتي: استراتيجية وتحول بريد ليبيا</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <!--
+        Plan Narrative & Structure:
+        The infographic tells the story of Libya Post's transformation.
+        Sections:
+        1. Introduction & Libya Post Identity: Overview and strategic vision.
+        2. Current State of Projects: Challenges and status of ongoing projects.
+           - Visualization: Donut chart for project statuses.
+           - Visualization: Key challenge callout (Big Number).
+        3. Strategic Transformation Initiatives (Future Projects 2025): Focus on Hybrid Mail, Data Center, FinTech.
+           - Visualization: Cards for each project.
+           - Visualization: Bar chart for future project costs.
+        4. The Five-Year Strategic Funding Plan (2025-2029): Based on selected KPMG data.
+           - Visualization: Bar chart for annual funding.
+        5. Strategic Goals & Future Outlook: Connecting projects to overarching goals.
+           - Visualization: HTML/CSS based list for goals.
+        6. Conclusion: Summary of transformation importance.
+
+        Selected Visualizations:
+        1. Current Project Statuses (1 جاري, 8 متعثر):
+           - Goal: Compare (composition).
+           - Chosen Visualization: Donut Chart (Chart.js, Canvas).
+           - Justification: Clearly shows proportions of project statuses. NO SVG.
+           - Data Source: Analysis of 'بيان بموقف المشروعات الاستراتيجية القائمة - شركة بريد ليبيا.pdf'.
+
+        2. Key Challenge (Current Projects - Funding):
+           - Goal: Inform.
+           - Chosen Visualization: Prominent text callout (HTML/CSS).
+           - Justification: Emphasizes the critical funding issue. NO SVG.
+           - Data Source: Notes in 'بيان بموقف المشروعات الاستراتيجية القائمة - شركة بريد ليبيا.pdf'.
+
+        3. Future Project Costs (Hybrid Mail, Data Center, FinTech for 2025):
+           - Goal: Compare.
+           - Chosen Visualization: Bar Chart (Chart.js, Canvas).
+           - Justification: Easy comparison of estimated costs for new initiatives. NO SVG.
+           - Data Source: 'المبادرات الاستراتيجية المستقبلية لتطوير شركة بريد ليبيا وفق الموازنة التقديرية.pdf'.
+
+        4. The Five-Year Strategic Funding Plan (2025-2029):
+           - Goal: Change (show trend over time).
+           - Chosen Visualization: Bar Chart (Chart.js, Canvas).
+           - Justification: Clearly visualizes the distribution of the $28.3M strategic fund over 5 years. NO SVG.
+           - Data Source: 'لقطة الشاشة 2025-05-21 105320.png' / Canvas selection.
+
+        5. Overview of Strategic Goals:
+           - Goal: Organize.
+           - Chosen Visualization: Structured HTML list with icons (Unicode or HTML/CSS based).
+           - Justification: Presents strategic pillars clearly. NO SVG.
+           - Data Source: Synthesized from overall context and objectives mentioned.
+
+        Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All charts are Chart.js (Canvas). Diagrams are HTML/CSS.
+
+        Color Palette Chosen: Libya Post Logo Colors (Blue: #0033A0, Green: #22C55E)
+            - Primary Blue: #0033A0
+            - Secondary Blue (lighter): #0047D0
+            - Accent Green: #22C55E
+            - Light Background: #F7FAFC (near white)
+            - Neutral Text/Dark Background: #2D3748 (dark gray)
+            - Dark Text: #1A202C (very dark gray)
+    -->
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width, can be overridden by Tailwind classes */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px; /* Max height */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .section-title {
+            font-size: 2rem; /* Equivalent to text-3xl or text-4xl */
+            font-weight: 700;
+            margin-bottom: 1.5rem; /* Equivalent to mb-6 */
+            color: #0033A0; /* Primary Blue */
+            text-align: center;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .stat-value {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700;
+            color: #0033A0; /* Primary Blue */
+        }
+        .stat-label {
+            font-size: 1rem; /* text-base */
+            color: #4B5563; /* gray-600 */
+        }
+        /* Custom styling for HTML-based flow elements if needed */
+        .flow-item {
+            border: 2px solid #22C55E; /* Accent Green */
+            padding: 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            text-align: center;
+        }
+        .flow-arrow::after {
+            content: '▼'; /* Unicode arrow or use Tailwind for SVG icons if allowed, but prompt says NO SVG */
+            font-size: 1.5rem;
+            color: #22C55E; /* Accent Green */
+            display: block;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <img src="logo.jpg" alt="شعار بريد ليبيا" class="mx-auto block py-4" style="max-width: 200px;" onerror="this.src='https://placehold.co/200x100/CCCCCC/FFFFFF?text=Error'; this.alt='Error loading image'">
+
+    <nav class="bg-[#0033A0] text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">بريد ليبيا: نحو مستقبل رقمي</h1>
+            <div class="space-x-4 space-x-reverse">
+                <a href="#current-projects" class="hover:text-[#22C55E]">المشاريع الحالية</a>
+                <a href="#future-initiatives" class="hover:text-[#22C55E]">المبادرات المستقبلية</a>
+                <a href="#funding-plan" class="hover:text-[#22C55E]">الخطة المالية</a>
+                <a href="#strategic-goals" class="hover:text-[#22C55E]">الأهداف الاستراتيجية</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <section id="intro" class="my-12 text-center">
+            <h2 class="section-title">بريد ليبيا: رحلة التحول الاستراتيجي</h2>
+            <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+                تسعى شركة بريد ليبيا إلى تحقيق نقلة نوعية في خدماتها وبنيتها التحتية، مستندةً إلى خطة استراتيجية طموحة تهدف إلى مواكبة التطورات الرقمية وتلبية احتياجات المتعاملين المتزايدة. يستعرض هذا المخطط أبرز ملامح هذه الرحلة، من واقع المشاريع الحالية إلى المبادرات المستقبلية والتمويل المخصص لها.
+            </p>
+        </section>
+
+        <section id="current-projects" class="my-12 py-8 bg-blue-50 rounded-lg" style="background-color: #F7FAFC;">
+            <h2 class="section-title">الوضع الراهن للمشاريع الاستراتيجية</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">تواجه شركة بريد ليبيا تحديات في تنفيذ مشاريعها الحالية، مما يستدعي تضافر الجهود لتجاوزها والانطلاق نحو تحقيق الأهداف المنشودة.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-[#0033A0] text-center">حالة المشاريع الجارية (9 مشاريع)</h3>
+                    <div class="chart-container h-[300px] md:h-[350px] max-w-sm">
+                        <canvas id="currentProjectsStatusChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4 text-center">يظهر الرسم البياني توزيع حالات المشاريع الاستراتيجية القائمة حاليًا في بريد ليبيا.</p>
+                </div>
+                <div class="card text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-[#0033A0]">التحدي الأبرز</h3>
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 rounded-md shadow-md">
+                        <p class="text-2xl font-bold mb-2">"عدم تسييل الموازنات"</p>
+                        <p class="text-md">يشكل تأخر أو عدم تسييل الموازنات المخصصة العائق الرئيسي أمام تقدم غالبية المشاريع الجارية، مما يؤدي إلى تعثرها.</p>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold mb-2 text-[#0033A0]">مشروع العنونة البريدية</h4>
+                        <p class="text-gray-700">على الرغم من أن نسبة الإنجاز الفني للمشروع 85% (والتي تمثل نسبة 100% من بند أعمال التوريد والتصنيع لعدد 612 الف لوحة رمز بريدي + 24% من بند أعمال التركيب لعدد 612 ألف لوحة رمز بريدي) في حين أن نسبة الإنجاز المالي لا تتجاوز 28% من قيمة العقد البالغة 24,116,250 دينار.</p>
+                    </div>
+                </div>
+            </div>
+             <div class="mt-8 px-4">
+                <h3 class="text-xl font-semibold mb-4 text-[#0033A0] text-center">تفاصيل المشاريع الجارية</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg shadow">
+                        <thead class="bg-[#0033A0] text-white">
+                            <tr>
+                                <th class="text-right p-3">اسم المشروع</th>
+                                <th class="text-right p-3">النطاق الأساسي</th>
+                                <th class="text-center p-3">الحالة</th>
+                                <th class="text-center p-3">تاريخ البدء</th>
+                                <th class="text-center p-3">تاريخ الإغلاق المتوقع</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3">العنونة البريدية</td>
+                                <td class="p-3">تنفيذ مخرجات المسح الميداني وتحديث البيانات، ترقيم المباني وبناء قواعد البيانات.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">جاري</span></td>
+                                <td class="p-3 text-center">2023/06/30</td>
+                                <td class="p-3 text-center">2025/06/30</td>
+                            </tr>
+                            <tr class="border-b bg-blue-50" style="background-color: #F7FAFC;">
+                                <td class="p-3">تطوير الشبكة البريدية والهوية التجارية</td>
+                                <td class="p-3">تطوير المكاتب البريدية والهوية التجارية ومراكز المبيعات والعمليات والتوزيع وأسطول النقل.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/05/12</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3">تطوير البريد السريع</td>
+                                <td class="p-3">تطوير وتحسين خدمات البريد السريع المحلي والدولي وزيادة مدى التغطية الجغرافية.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/08/01</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr class="border-b bg-blue-50" style="background-color: #F7FAFC;">
+                                <td class="p-3">إعادة تفعيل وتطوير الحوالات المالية</td>
+                                <td class="p-3">تفعيل خدمات الحوالات المالية من خلال المكاتب البريدية.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/08/10</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3">التطوير المؤسسي والتنظيمي للشركة</td>
+                                <td class="p-3">تنظيم وتطوير الأعمال وتعزيز القدرة على تقييم الأعمال ومراقبة سير العمل.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/08/10</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr class="border-b bg-blue-50" style="background-color: #F7FAFC;">
+                                <td class="p-3">التوسع في تقديم خدمات القطاع والجهات الحكومية</td>
+                                <td class="p-3">تطوير وتحسين الخدمات التجارية والتسويقية والتعريف بها لدى شركات القطاع والجهات الحكومية.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/09/25</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3">الحملات الإعلامية والتسويقية والإعلام</td>
+                                <td class="p-3">تعزيز صورة الشركة وزيادة وعي الجمهور بخدماتها عبر حملات إعلامية وتقليدية ورقمية تفاعلية.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2022/09/01</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr class="border-b bg-blue-50" style="background-color: #F7FAFC;">
+                                <td class="p-3">مشروع تطوير الأنظمة اللوجستية للتجارة الإلكترونية</td>
+                                <td class="p-3">تحديث البنية التحتية اللوجستية لمواكبة متطلبات التجارة الإلكترونية من خلال تحسين تتبع الشحنات.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/12/27</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">الميكنة والتحول الرقمي</td>
+                                <td class="p-3">تنفيذ الأعمال المتعلقة بالبنية التحتية لتقنية المعلومات بما يتلاءم مع الأنظمة والبرامج والتطبيقات.</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full">متعثر</span></td>
+                                <td class="p-3 text-center">2023/08/10</td>
+                                <td class="p-3 text-center">2025/12/31</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-500 mt-2 text-center">توضح هذه الطاولة تفاصيل المشاريع الجارية لبريد ليبيا، بما في ذلك حالتها ونطاقها.</p>
+            </div>
+        </section>
+
+        <section id="future-initiatives" class="my-12 py-8">
+            <h2 class="section-title">مبادرات التحول الاستراتيجي (مشاريع 2025)</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">تخطط شركة بريد ليبيا لإطلاق ثلاث مبادرات استراتيجية رئيسية خلال عام 2025، تهدف إلى تعزيز التحول الرقمي وتوسيع نطاق الخدمات.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-semibold mb-3 text-[#0033A0] text-center">مشروع البريد الهجين<br>(Hybrid Mail Project)</h3>
+                    <p class="text-gray-600 mb-3 text-sm">رقمنة عمليات البريد، خفض التكاليف، تحسين سرعة وجودة التسليم، ودعم الحكومة الإلكترونية.</p>
+                    <p class="mt-auto"><span class="font-bold text-[#0033A0] text-lg">التكلفة: 5.5 مليون دولار</span></p>
+                </div>
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-semibold mb-3 text-[#0033A0] text-center">مشروع مركز البيانات<br>(Datacenter Project)</h3>
+                    <p class="text-gray-600 mb-3 text-sm">توفير مركز بيانات ومنصة إدارة البعائث لدعم البريد السريع والتجارة الإلكترونية وتعزيز الشراكة مع المداركيت.</p>
+                    <p class="mt-auto"><span class="font-bold text-[#0033A0] text-lg">التكلفة: 3.53 مليون دولار</span></p>
+                </div>
+                <div class="card flex flex-col">
+                    <h3 class="text-xl font-semibold mb-3 text-[#0033A0] text-center">مشروع الخدمات المالية<br>(FinTech Project)</h3>
+                    <p class="text-gray-600 mb-3 text-sm">تقديم خدمات مالية متكاملة (حوالات، محافظ رقمية، دفع إلكتروني، صرافات آلية) لتعزيز دور الشركة كمزود خدمات مالية.</p>
+                    <p class="mt-auto"><span class="font-bold text-[#0033A0] text-lg">التكلفة: 5.5 مليون دولار</span></p>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 text-[#0033A0] text-center">التكاليف التقديرية لمبادرات 2025 (بالمليون دولار)</h3>
+                <div class="chart-container h-[300px] md:h-[350px] max-w-lg">
+                    <canvas id="futureProjectsCostChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">مقارنة بين التكاليف الاستثمارية المتوقعة للمشاريع الرئيسية المخطط البدء بها في 2025.</p>
+            </div>
+        </section>
+
+        <section id="funding-plan" class="my-12 py-8 rounded-lg" style="background-color: #F7FAFC;">
+            <h2 class="section-title">الخطة الاستراتيجية الخمسية للتمويل (2025-2029)</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">وفقاً لدراسة KPMG، فاستراتيجية بريد ليبيا تحتاج إلى تمويل إجمالي قدره 28.3 مليون دولار أمريكي لدعم الخطة الاستراتيجية لبريد ليبيا على مدى خمس سنوات.</p>
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 text-[#0033A0] text-center">توزيع التمويل السنوي (بالمليون دولار)</h3>
+                <div class="chart-container h-[350px] md:h-[400px] max-w-2xl">
+                    <canvas id="fiveYearFundingChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">يُظهر الرسم البياني توزيع مخصصات التمويل السنوية للخطة الاستراتيجية، مع تركيز على السنوات الأولى لدفع عجلة التحول.</p>
+            </div>
+            <div class="text-center mt-8">
+                <div class="stat-value text-[#0033A0]">28.3 مليون دولار</div>
+                <div class="stat-label text-gray-700">إجمالي التمويل المخصص للخطة الخمسية</div>
+            </div>
+        </section>
+
+        <section id="strategic-goals" class="my-12 py-8">
+            <h2 class="section-title">الأهداف الاستراتيجية والتطلعات المستقبلية</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">تهدف الخطة الاستراتيجية لبريد ليبيا إلى تحقيق مجموعة من الأهداف المحورية التي تضمن النمو المستدام وتعزيز دور الشركة في الاقتصاد الوطني.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card text-center" style="background-color: #E6F0FF; border: 1px solid #B3CCFF;">
+                    <div class="text-4xl mb-3 text-[#0033A0]">💰</div>
+                    <h3 class="text-lg font-semibold mb-2 text-[#0033A0]">تحقيق التوازن المالي</h3>
+                    <p class="text-sm text-gray-700">شركة عمومية، هادفة لتحقيق توازنها المالي.</p>
+                </div>
+                <div class="card text-center" style="background-color: #E6FFF7; border: 1px solid #BFFFE6;">
+                     <div class="text-4xl mb-3 text-[#22C55E]">🏗️</div>
+                    <h3 class="text-lg font-semibold mb-2 text-[#0033A0]">إعادة البناء</h3>
+                    <p class="text-sm text-gray-700">إعادة بناء بريد ليبيا، لجعله مؤسسة رائدة في المجال البريدي.</p>
+                </div>
+                <div class="card text-center" style="background-color: #E6F0FF; border: 1px solid #B3CCFF;">
+                    <div class="text-4xl mb-3 text-[#0033A0]">🤝</div>
+                    <h3 class="text-lg font-semibold mb-2 text-[#0033A0]">عنصر فاعل في المجتمع</h3>
+                    <p class="text-sm text-gray-700">مؤسسة مواطنة وداعمة للدولة في تقديم الخدمات الحكومية.</p>
+                </div>
+                <div class="card text-center" style="background-color: #E6FFF7; border: 1px solid #BFFFE6;">
+                    <div class="text-4xl mb-3 text-[#22C55E]">✅</div>
+                    <h3 class="text-lg font-semibold mb-2 text-[#0033A0]">استعادة الثقة</h3>
+                    <p class="text-sm text-gray-700">شركة معروفة، معترف بها وتحظى بثقة المواطنين الليبيين وعملائها.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="my-12 py-8 text-center rounded-lg" style="background-color: #0033A0; color: white;">
+            <h2 class="text-3xl font-bold mb-4">مستقبل واعد لبريد ليبيا</h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-6">
+                إن تنفيذ الخطة الاستراتيجية والمبادرات الطموحة، بدعم التمويل المخصص، سيضع بريد ليبيا على مسار النمو والتطور، ويمكنها من لعب دور محوري في دعم الاقتصاد الرقمي وتقديم خدمات متميزة للمواطنين والقطاعات المختلفة في ليبيا.
+            </p>
+            <p class="text-md font-semibold">الالتزام بالخطط وتوفير الموارد هما مفتاح النجاح.</p>
+        </section>
+
+    </div>
+
+    <footer class="text-center p-6 bg-gray-800 text-gray-300 text-sm">
+        جميع الحقوق محفوظة © بريد ليبيا 2025 (مخطط معلوماتي توضيحي)
+    </footer>
+
+    <script>
+        // Helper function to format labels for Chart.js if they are too long
+        // This function ensures that labels are returned as an array of strings as required by Chart.js for multiline labels.
+        function formatLabel(label, maxWidth = 16) {
+            if (typeof label !== 'string') return Array.isArray(label) ? label : [String(label)];
+            
+            if (label.length <= maxWidth) {
+                return [label]; // Return as array even if short
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length + 1 <= maxWidth) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Standard Tooltip Configuration for all charts
+        const tooltipTitleCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Chart 1: Current Projects Status
+        const ctxCurrentProjects = document.getElementById('currentProjectsStatusChart').getContext('2d');
+        new Chart(ctxCurrentProjects, {
+            type: 'doughnut',
+            data: {
+                labels: ['متعثرة', 'جارية'],
+                datasets: [{
+                    label: 'حالة المشاريع',
+                    data: [8, 1], // 8 متعثر, 1 جاري
+                    backgroundColor: ['#EF4444', '#22C55E'], // Red for متعثر, Green for جاري
+                    borderColor: ['#FFFFFF', '#FFFFFF'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { // Merging specific plugins with standard tooltip
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: 'Cairo' }
+                        }
+                    },
+                    tooltip: tooltipTitleCallback.plugins.tooltip // Apply standard tooltip
+                }
+            }
+        });
+
+        // Chart 2: Future Projects Cost
+        const ctxFutureProjects = document.getElementById('futureProjectsCostChart').getContext('2d');
+        new Chart(ctxFutureProjects, {
+            type: 'bar',
+            data: {
+                labels: [
+                    formatLabel('البريد الهجين', 16), 
+                    formatLabel('مركز البيانات', 16), 
+                    formatLabel('الخدمات المالية', 16)
+                ],
+                datasets: [{
+                    label: 'التكلفة التقديرية (مليون دولار)',
+                    data: [5.5, 3.53, 5.5],
+                    backgroundColor: '#0033A0', // Primary Blue
+                    borderColor: '#0047D0', // Secondary Blue
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'مليون دولار أمريكي', font: { family: 'Cairo' } },
+                        ticks: { font: { family: 'Cairo' } }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Cairo' } }
+                    }
+                },
+                plugins: { // Merging specific plugins with standard tooltip
+                    legend: {
+                         display: false
+                    },
+                    tooltip: tooltipTitleCallback.plugins.tooltip // Apply standard tooltip
+                }
+            }
+        });
+
+        // Chart 3: Five-Year Strategic Funding Plan
+        const ctxFundingPlan = document.getElementById('fiveYearFundingChart').getContext('2d');
+        new Chart(ctxFundingPlan, {
+            type: 'bar',
+            data: {
+                labels: ['2025', '2026', '2027', '2028', '2029'],
+                datasets: [{
+                    label: 'التمويل السنوي (مليون دولار)',
+                    data: [8.7, 5.9, 5.2, 6.6, 1.9],
+                    backgroundColor: [
+                        '#0033A0', // Primary Blue
+                        '#0047D0', // Secondary Blue
+                        '#005CD0', // Slightly lighter blue
+                        '#0070E0', // Even lighter blue
+                        '#0084F0'  // Lightest blue
+                    ],
+                    borderColor: '#0033A0', // Primary Blue
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'مليون دولار أمريكي', font: { family: 'Cairo' } },
+                        ticks: { font: { family: 'Cairo' } }
+                    },
+                    x: {
+                        title: { display: true, text: 'السنة', font: { family: 'Cairo' } },
+                        ticks: { font: { family: 'Cairo' } }
+                    }
+                },
+                 plugins: { // Merging specific plugins with standard tooltip
+                    legend: {
+                         display: false
+                    },
+                    tooltip: tooltipTitleCallback.plugins.tooltip // Apply standard tooltip
+                }
+            }
+        });
+    </script>
+</body>
+</html>
